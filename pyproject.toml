@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "networkcameras"
+version = "0.1.0"
+description = ""
+authors = ["LewisCollum <lewiscollum4@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.scripts]
+run = "networkcameras.app:main"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+opencv-python = "^4.5.5"
+Flask = "^2.1.2"
+Flask-SocketIO = "^5.2.0"
+eventlet = "^0.33.1"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
