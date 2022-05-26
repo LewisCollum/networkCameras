@@ -1,0 +1,9 @@
+** Getting Started
+Make sure =poetry= is installed, then, run the application
+
+#+begin_src bash
+poetry install
+poetry run
+#+end_src
+
+In a browser, open =localhost:8000/camera/0/health=, which will tell if the camera at index 0 (=/dev/video0=) is available. If the camera is available, go ahead and open =localhost:8000/camera/0=, which will show a live camera stream.
