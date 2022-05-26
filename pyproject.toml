@@ -2,7 +2,7 @@
 name = "networkcameras"
 version = "0.1.0"
 description = ""
-authors = ["LewisCollum <lewiscollum4@gmail.com>"]
+authors = ["Lewis Collum <lewiscollum4@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.scripts]
@@ -11,9 +11,8 @@ run = "networkcameras.app:main"
 [tool.poetry.dependencies]
 python = "^3.10"
 opencv-python = "^4.5.5"
-Flask = "^2.1.2"
-Flask-SocketIO = "^5.2.0"
-eventlet = "^0.33.1"
+fastapi = "^0.78.0"
+uvicorn = "^0.17.6"
 
 [tool.poetry.dev-dependencies]
 
