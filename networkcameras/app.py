@@ -5,20 +5,24 @@ from .camera import Camera
 
 app = FastAPI()
 
+def main():
+    uvicorn.run("networkcameras.app:app", host="0.0.0.0", reload=True)
 
-@app.get("/camera/{index}")
-def camera_stream(index: int):
-    return StreamingResponse(Camera(index), media_type="multipart/x-mixed-replace; boundary=frame")
+
+@app.get("/camera/{index}", responses={404: {"model": str}})
+async def camera_stream(index: int):
+    camera = findCamera(index)
+    return StreamingResponse(camera.stream(), media_type="multipart/x-mixed-replace; boundary=frame")
 
 
 @app.get("/camera/{index}/health", responses={404: {"model": str}})
 def camera_availability(index: int):
+    findCamera(index)
+    return f"Camera {index} available"
+
+
+def findCamera(index):
     try:
-        Camera(index)
-        return f"Camera {index} available"
+        return Camera(index)
     except RuntimeError as error:
         raise HTTPException(status_code=404, detail=str(error))
-
-
-def main():
-    uvicorn.run("networkcameras.app:app", reload=True)
