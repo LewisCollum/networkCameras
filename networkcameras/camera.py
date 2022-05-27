@@ -2,7 +2,6 @@ import cv2
 from collections import defaultdict
 import asyncio
 
-
 class Camera:
     cameras = {}
     users = defaultdict(lambda: 0)
@@ -14,6 +13,7 @@ class Camera:
             print(f"Registered Camera {self.source}")
         self.registerUser()
         print(f"Registered User for Camera {self.source}, count is now {self.userCount()}.")
+
 
     def __del__(self):
         if self.cameraIsOpened():
@@ -32,8 +32,17 @@ class Camera:
         except asyncio.CancelledError:
             pass
 
+    @classmethod
+    def clear(cls):
+        cls.cameras.clear()
+        cls.users.clear()
+        print("Dropped all Cameras and Users")
+
 
     def readAsResponse(self):
+        if self.source not in self.cameras:
+            return ""
+
         success, frame = self.cameras[self.source].read()
         return self.frameToResponse(frame) if success else ""
 
@@ -48,9 +57,9 @@ class Camera:
         return b"--frame\r\nContent-Type: image/jpeg\r\n\r\n" + frame + b"\r\n"
 
     def registerCamera(self):
-        self.cameras[self.source] = self.getCamera()
+        self.cameras[self.source] = self.openCamera()
 
-    def getCamera(self):
+    def openCamera(self):
         camera = cv2.VideoCapture(self.source)
         if not camera.isOpened():
             raise RuntimeError(f"Cannot find Camera {self.source}")
