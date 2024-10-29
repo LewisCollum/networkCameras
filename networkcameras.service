@@ -1,0 +1,12 @@
+[Unit]
+After=network.target
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=charon
+ExecStart=/home/charon/.local/bin/networkcameras
+
+[Install]
+WantedBy=multi-user.target

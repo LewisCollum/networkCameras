@@ -25,8 +25,20 @@ def camera_availability(index: int):
         "user_count": camera.userCount() - 1
     }
 
+@app.get("/cameras")
+def camera_list():
+    available = []
+    for i in range(10):
+        try:
+            camera = Camera(i)
+            available.append({
+                "index": i,
+                "user_count": camera.userCount() - 1
+            })
+        except RuntimeError: pass
+    return available
 
-@app.get("/camera")
+@app.delete("/cameras")
 def clear_cameras():
     Camera.clear()
     return "Cleared all cameras and users"
